@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "82LQ8PCL28.online.atlasclub.app",
+        "paths": ["/t/*", "/r/*", "/c/*", "/dat", "/dat/*"]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["82LQ8PCL28.online.atlasclub.app"]
+  }
+}
