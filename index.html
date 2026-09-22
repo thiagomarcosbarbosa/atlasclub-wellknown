@@ -56,14 +56,20 @@
   <footer>atlasclub.online</footer>
 </main>
 <script>
-  // O fragmento não vai ao servidor, então a decisão é aqui.
-  var h = location.hash || '';
-  if (h.indexOf('access_token=') > -1 || h.indexOf('type=email_change') > -1) {
+  // O fragmento não vai ao servidor, então a decisão é aqui. O GoTrue devolve
+  // `type=email_change` só nesta volta — verificado contra o projeto de
+  // produção, não suposto. Um magic link de login traz `type=magiclink` e cai
+  // na página padrão, como deve.
+  var h = (location.hash || '').replace(/^#/, '');
+  if (/(^|&)type=email_change(&|$)/.test(h)) {
     document.getElementById('padrao').hidden = true;
     document.getElementById('confirmado').hidden = false;
     document.title = 'E-mail confirmado — Atlas Club';
-    // Tira o token da barra de endereços (e do histórico).
-    if (history.replaceState) history.replaceState(null, '', location.pathname);
+  }
+  // O fragmento carrega access_token e refresh_token: tira da barra de
+  // endereços e do histórico, aconteça o que acontecer acima.
+  if (h && history.replaceState) {
+    history.replaceState(null, '', location.pathname);
   }
 </script>
 </body>
