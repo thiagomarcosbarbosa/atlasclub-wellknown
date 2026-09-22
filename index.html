@@ -1,4 +1,70 @@
 <!doctype html>
+<html lang="pt-BR">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Atlas Club</title>
-<p>Atlas Club — host do Universal Link (Apple App Site Association).</p>
+<style>
+  :root{--primary:#14B8A6;--primary-soft:#1A2F2D;--bg:#0B0F1A;--surface:#121826;--text:#F3F4F6;--muted:#9CA3AF}
+  *{box-sizing:border-box} html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    display:grid;place-items:center;padding:24px 16px;
+    background-image:
+      radial-gradient(900px 500px at 50% -10%, rgba(20,184,166,.13), transparent 60%),
+      radial-gradient(700px 420px at 90% 110%, rgba(109,40,217,.14), transparent 60%);
+    background-repeat:no-repeat}
+  main{width:100%;max-width:420px;text-align:center}
+  .mark{font-weight:800;letter-spacing:.22em;font-size:13px;color:var(--muted);
+    text-transform:uppercase;margin-bottom:36px}
+  .mark b{color:var(--text)}
+  .ring{width:88px;height:88px;margin:0 auto 26px;border-radius:50%;display:grid;
+    place-items:center;background:var(--primary-soft);border:1.2px solid rgba(20,184,166,.5)}
+  .ring svg{width:40px;height:40px;stroke:var(--primary);fill:none;stroke-width:2.4;
+    stroke-linecap:round;stroke-linejoin:round}
+  h1{font-size:27px;line-height:1.2;letter-spacing:-.5px;margin:0 0 14px}
+  p{color:var(--muted);margin:0 auto;max-width:34ch}
+  .card{margin-top:30px;padding:18px 20px;text-align:left;background:var(--surface);
+    border:1px solid rgba(255,255,255,.07);border-radius:14px;color:var(--muted);font-size:14.5px}
+  .card b{color:var(--text);font-weight:600}
+  footer{margin-top:30px;font-size:12.5px;color:#5b6472}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+<main>
+  <div class="mark">ATLAS <b>CLUB</b></div>
+
+  <!-- Volta da confirmação de e-mail. Builds até a 1.9.18 não mandam
+       `emailRedirectTo`, então o Supabase redireciona para o site_url — esta
+       raiz. O token vem no fragmento; é só isso que distingue os dois casos. -->
+  <div id="confirmado" hidden>
+    <div class="ring" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <h1>E-mail confirmado</h1>
+    <p>Pronto. Sua conta agora tem a segunda verificação — é ela que devolve o
+       Atlas Club para você em qualquer aparelho novo.</p>
+    <div class="card"><b>Volte para o app</b> — pode fechar esta aba. Se o
+      conteúdo ainda aparecer bloqueado, feche e abra o Atlas Club de novo.</div>
+  </div>
+
+  <div id="padrao">
+    <div class="ring" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15 0 18M12 3c-2.5 2.7-2.5 15 0 18"/></svg></div>
+    <h1>Atlas Club</h1>
+    <p>Quem quer viajar junto, sem se conhecer antes.</p>
+  </div>
+
+  <footer>atlasclub.online</footer>
+</main>
+<script>
+  // O fragmento não vai ao servidor, então a decisão é aqui.
+  var h = location.hash || '';
+  if (h.indexOf('access_token=') > -1 || h.indexOf('type=email_change') > -1) {
+    document.getElementById('padrao').hidden = true;
+    document.getElementById('confirmado').hidden = false;
+    document.title = 'E-mail confirmado — Atlas Club';
+    // Tira o token da barra de endereços (e do histórico).
+    if (history.replaceState) history.replaceState(null, '', location.pathname);
+  }
+</script>
+</body>
+</html>
